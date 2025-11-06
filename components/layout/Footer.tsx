@@ -1,7 +1,22 @@
 import Link from "next/link";
 
-export default function Footer() {
+interface FooterProps {
+  socialLinks?: {
+    linkedinUrl?: string;
+    twitterUrl?: string;
+    facebookUrl?: string;
+    instagramUrl?: string;
+  };
+}
+
+export default function Footer({ socialLinks }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  
+  // Use provided links or defaults
+  const linkedinUrl = socialLinks?.linkedinUrl || 'https://linkedin.com/company/approvu';
+  const twitterUrl = socialLinks?.twitterUrl || 'https://twitter.com/approvumortgage';
+  const facebookUrl = socialLinks?.facebookUrl || 'https://facebook.com/approvu';
+  const instagramUrl = socialLinks?.instagramUrl || 'https://instagram.com/approvu';
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -56,6 +71,7 @@ export default function Footer() {
               <li><Link href="/fsra-license" className="hover:underline">FSRA License</Link></li>
               <li><Link href="/cookie-policy" className="hover:underline">Cookie Policy</Link></li>
               <li><Link href="/support" className="hover:underline">Support Center</Link></li>
+              <li><Link href="/resources" className="hover:underline font-semibold">📚 All Resources</Link></li>
               <li><Link href="/html-sitemap" className="hover:underline">Site Map</Link></li>
             </ul>
           </div>
@@ -73,9 +89,10 @@ export default function Footer() {
 
             <div className="ml-auto flex items-center gap-6">
               <nav className="flex gap-4 items-center text-sm">
-                <a href="#" className="hover:underline">LinkedIn</a>
-                <a href="#" className="hover:underline">Facebook</a>
-                <a href="#" className="hover:underline">Instagram</a>
+                <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
+                <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">Twitter</a>
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">Facebook</a>
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a>
               </nav>
             </div>
           </div>

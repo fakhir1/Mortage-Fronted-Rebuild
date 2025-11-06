@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Save, Settings as SettingsIcon, Globe, Mail, Key, Shield, Zap } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Save, Settings as SettingsIcon, Globe, Mail, Key, Shield, Zap, Loader2, Share2 } from 'lucide-react';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { toast } from 'sonner';
 
 function SettingsContent() {
   const [settings, setSettings] = useState({
@@ -26,6 +27,12 @@ function SettingsContent() {
     emailFromAddress: 'noreply@mortgagesite.com',
     emailFromName: 'Mortgage Team',
     
+    // Social Media Links
+    linkedinUrl: 'https://linkedin.com/company/approvu',
+    twitterUrl: 'https://twitter.com/approvumortgage',
+    facebookUrl: 'https://facebook.com/approvu',
+    instagramUrl: 'https://instagram.com/approvu',
+    
     // Feature Toggles
     enableOnlineApplications: true,
     enableAppointmentBooking: true,
@@ -35,7 +42,51 @@ function SettingsContent() {
   });
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [saveMessage, setSaveMessage] = useState('');
+
+  // Load settings from database on mount
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/settings');
+      if (response.ok) {
+        const result = await response.json();
+        if (result.data) {
+          // Convert string booleans to actual booleans
+          const loadedSettings = { ...result.data };
+          
+          // List of boolean fields
+          const booleanFields = [
+            'enableOnlineApplications',
+            'enableAppointmentBooking',
+            'enableBlogComments',
+            'enableRatingsReviews',
+            'maintenanceMode'
+          ];
+          
+          // Convert string 'true'/'false' to boolean
+          booleanFields.forEach(field => {
+            if (typeof loadedSettings[field] === 'string') {
+              loadedSettings[field] = loadedSettings[field] === 'true';
+            }
+          });
+          
+          // Merge loaded settings with defaults
+          setSettings((prev) => ({ ...prev, ...loadedSettings }));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load settings:', error);
+      toast.error('Failed to load settings');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChange = (field: string, value: string | boolean) => {
     setSettings((prev) => ({ ...prev, [field]: value }));
@@ -45,16 +96,47 @@ function SettingsContent() {
     setIsSaving(true);
     setSaveMessage('');
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    // In production, this would save to database
-    localStorage.setItem('siteSettings', JSON.stringify(settings));
-    
-    setIsSaving(false);
-    setSaveMessage('Settings saved successfully!');
-    setTimeout(() => setSaveMessage(''), 3000);
+    try {
+      console.log('Saving settings:', settings);
+      
+      const response = await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ settings }),
+      });
+
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('API Error:', error);
+        throw new Error(error.error || error.details || 'Failed to save settings');
+      }
+
+      const result = await response.json();
+      console.log('Save result:', result);
+      toast.success('Settings saved successfully!');
+      setSaveMessage(`✅ ${result.message || 'Settings saved!'} (${result.count || 0} settings updated)`);
+      setTimeout(() => setSaveMessage(''), 5000);
+    } catch (error: any) {
+      console.error('Save settings error:', error);
+      toast.error(error.message || 'Failed to save settings');
+      setSaveMessage('❌ ' + (error.message || 'Failed to save settings'));
+    } finally {
+      setIsSaving(false);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading settings...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">
@@ -75,8 +157,14 @@ function SettingsContent() {
       </div>
 
       {saveMessage && (
-        <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-          <p className="text-green-800">{saveMessage}</p>
+        <div className={`mb-6 rounded-lg p-4 ${
+          saveMessage.startsWith('✅') 
+            ? 'bg-green-50 border border-green-200' 
+            : 'bg-red-50 border border-red-200'
+        }`}>
+          <p className={saveMessage.startsWith('✅') ? 'text-green-800' : 'text-red-800'}>
+            {saveMessage}
+          </p>
         </div>
       )}
 
@@ -293,6 +381,71 @@ function SettingsContent() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-pink-100 rounded-lg flex items-center justify-center">
+                <Share2 className="h-5 w-5 text-pink-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">Social Media Links</h2>
+                <p className="text-sm text-gray-600">Social media profiles and links</p>
+              </div>
+            </div>
+          </div>
+          <div className="p-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                LinkedIn
+              </label>
+              <input
+                type="url"
+                value={settings.linkedinUrl}
+                onChange={(e) => handleChange('linkedinUrl', e.target.value)}
+                placeholder="https://linkedin.com/company/approvu"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Twitter
+              </label>
+              <input
+                type="url"
+                value={settings.twitterUrl}
+                onChange={(e) => handleChange('twitterUrl', e.target.value)}
+                placeholder="https://twitter.com/approvumortgage"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Facebook
+              </label>
+              <input
+                type="url"
+                value={settings.facebookUrl}
+                onChange={(e) => handleChange('facebookUrl', e.target.value)}
+                placeholder="https://facebook.com/approvu"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Instagram
+              </label>
+              <input
+                type="url"
+                value={settings.instagramUrl}
+                onChange={(e) => handleChange('instagramUrl', e.target.value)}
+                placeholder="https://instagram.com/approvu"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
             </div>
           </div>
         </div>

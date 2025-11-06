@@ -15,12 +15,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Loader2, User, LogOut, Bell, Menu } from 'lucide-react'
+import { Loader2, LogOut, Menu, ExternalLink, ChevronUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -71,70 +71,51 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
             isCollapsed ? 'md:ml-16' : 'md:ml-64'
           )}
         >
-          {/* Header */}
-          <header className="sticky top-0 z-30 border-b bg-card backdrop-blur supports-[backdrop-filter]:bg-card/95">
-            <div className="flex h-16 items-center justify-between px-4 lg:px-6">
-              {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Only visible on mobile */}
+          <div className="md:hidden sticky top-0 z-30 bg-background border-b">
+            <div className="flex h-14 items-center px-4">
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 <Menu className="w-5 h-5" />
               </Button>
-
-              {/* Title */}
-              <div className="flex-1">
-                {title && (
-                  <h1 className="text-xl font-semibold text-foreground">{title}</h1>
-                )}
-              </div>
-
-              {/* Header Actions */}
-              <div className="flex items-center gap-2">
-                {/* Notifications */}
-                <Button variant="ghost" size="icon">
-                  <Bell className="w-5 h-5" />
-                </Button>
-
-                {/* User Menu */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="gap-2">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <User className="w-4 h-4 text-primary" />
-                      </div>
-                      <span className="hidden sm:inline-block text-sm font-medium">
-                        {user.email?.split('@')[0] || 'Admin'}
-                      </span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium">{user.email}</p>
-                        <p className="text-xs text-muted-foreground">Admin Account</p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile Settings</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              {title && (
+                <h1 className="ml-3 text-lg font-semibold text-foreground">{title}</h1>
+              )}
             </div>
-          </header>
+          </div>
 
           {/* Page Content */}
           <main className="p-4 lg:p-6">{children}</main>
+        </div>
+
+        {/* Floating Action Menu - Bottom Right */}
+        <div className="fixed bottom-6 right-6 z-50">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all"
+              >
+                <ChevronUp className="h-6 w-6" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 mb-2">
+              <DropdownMenuItem asChild>
+                <Link href="/" target="_blank" className="cursor-pointer">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <span>View Site</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Mobile Sidebar Overlay */}

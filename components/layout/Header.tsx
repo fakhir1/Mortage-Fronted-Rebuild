@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { ChevronDown, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -10,10 +10,22 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { user, signOut, loading } = useAuth();
 
+  // Wait for client-side mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render header on admin pages
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const isActivePath = (href: string, submenu?: any[]) => {
+    if (!mounted) return false; // Prevent hydration mismatch
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname?.startsWith(href)) return true;
     if (submenu && submenu.some(item => pathname?.startsWith(item.href))) return true;
@@ -49,7 +61,8 @@ export default function Header() {
       submenu: [
         { name: "Calculators", href: "/mortgage/calculators/" },
         { name: "Rates", href: "/mortgage/rates/" },
-        { name: "Guides", href: "/mortgage/guides/" }
+        { name: "Guides", href: "/mortgage/guides/" },
+        { name: "All Resources", href: "/resources" } // 🆕 Link to resources page
       ]
     },
     { name: "About", href: "/about/" },
