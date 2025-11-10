@@ -20,7 +20,7 @@ export default function Header() {
   }, []);
 
   // Don't render header on admin pages
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith("/admin")) {
     return null;
   }
 
@@ -28,23 +28,24 @@ export default function Header() {
     if (!mounted) return false; // Prevent hydration mismatch
     if (href === "/" && pathname === "/") return true;
     if (href !== "/" && pathname?.startsWith(href)) return true;
-    if (submenu && submenu.some(item => pathname?.startsWith(item.href))) return true;
+    if (submenu && submenu.some((item) => pathname?.startsWith(item.href)))
+      return true;
     return false;
   };
 
   const navigation = [
     { name: "Home", href: "/" },
-    { 
-      name: "Solutions", 
+    {
+      name: "Solutions",
       href: "/mortgage/",
       submenu: [
         { name: "Purchase Mortgage", href: "/mortgage/purchase/" },
         { name: "Refinance Mortgage", href: "/mortgage/refinance/" },
-        { name: "Pre-Approval", href: "/mortgage/approval/" }
-      ]
+        { name: "Pre-Approval", href: "/mortgage/approval/" },
+      ],
     },
-    { 
-      name: "Programs", 
+    {
+      name: "Programs",
       href: "/mortgage/first-time-buyer/",
       submenu: [
         { name: "First-Time Buyer", href: "/mortgage/first-time-buyer/" },
@@ -52,22 +53,22 @@ export default function Header() {
         { name: "Bad Credit", href: "/mortgage/bad-credit/" },
         { name: "Investor", href: "/mortgage/investor/" },
         { name: "Professional Mortgages", href: "/mortgage/professional/" },
-        { name: "New to Canada", href: "/mortgage/newcomer/" }
-      ]
+        { name: "New to Canada", href: "/mortgage/newcomer/" },
+      ],
     },
-    { 
-      name: "Resources", 
+    {
+      name: "Resources",
       href: "/mortgage/rates/",
       submenu: [
         { name: "Calculators", href: "/mortgage/calculators/" },
         { name: "Rates", href: "/mortgage/rates/" },
         { name: "Guides", href: "/mortgage/guides/" },
-        { name: "All Resources", href: "/resources" } // 🆕 Link to resources page
-      ]
+        { name: "All Resources", href: "/resources" }, // 🆕 Link to resources page
+      ],
     },
     { name: "About", href: "/about/" },
     { name: "Agents", href: "/agents/" },
-    { name: "Contact", href: "/contact/" }
+    { name: "Contact", href: "/contact/" },
   ];
 
   return (
@@ -88,8 +89,8 @@ export default function Header() {
                 <Link
                   href={item.href}
                   className={`flex items-center gap-1 font-medium transition-colors ${
-                    isActivePath(item.href, item.submenu) 
-                      ? "text-primary border-b-2 border-primary" 
+                    isActivePath(item.href, item.submenu)
+                      ? "text-primary border-b-2 border-primary"
                       : "text-foreground hover:text-primary"
                   }`}
                 >
@@ -108,7 +109,7 @@ export default function Header() {
                               ? "text-primary font-medium bg-gray-50"
                               : "text-gray-700 hover:text-primary hover:bg-gray-50"
                           }`}
-                >
+                        >
                           {subItem.name}
                         </Link>
                       ))}
@@ -130,9 +131,15 @@ export default function Header() {
                 >
                   <User className="w-5 h-5 text-gray-600" />
                   <span className="text-gray-700 font-medium">
-                    {user.user_metadata?.username || user.email?.split('@')[0] || 'User'}
+                    {user.user_metadata?.username ||
+                      user.email?.split("@")[0] ||
+                      "User"}
                   </span>
-                  <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 text-gray-600 transition-transform ${
+                      userDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
                 {userDropdownOpen && (
@@ -153,8 +160,8 @@ export default function Header() {
                     </Link>
                     <button
                       onClick={async () => {
-                        setUserDropdownOpen(false)
-                        await signOut()
+                        setUserDropdownOpen(false);
+                        await signOut();
                       }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition flex items-center gap-2"
                     >
@@ -188,11 +195,26 @@ export default function Header() {
               className="text-foreground hover:text-primary p-2"
               aria-label="Toggle menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -213,18 +235,26 @@ export default function Header() {
                           ? "text-primary"
                           : "text-foreground hover:text-primary"
                       }`}
-                      onClick={() => !item.submenu && setIsMobileMenuOpen(false)}
+                      onClick={() =>
+                        !item.submenu && setIsMobileMenuOpen(false)
+                      }
                     >
                       {item.name}
                     </Link>
                     {item.submenu && (
                       <button
-                        onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
+                        onClick={() =>
+                          setActiveDropdown(
+                            activeDropdown === item.name ? null : item.name
+                          )
+                        }
                         className="p-2 text-gray-400"
                       >
-                        <ChevronDown className={`w-4 h-4 transition-transform ${
-                          activeDropdown === item.name ? "rotate-180" : ""
-                        }`} />
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform ${
+                            activeDropdown === item.name ? "rotate-180" : ""
+                          }`}
+                        />
                       </button>
                     )}
                   </div>
@@ -258,24 +288,32 @@ export default function Header() {
                       <div className="flex items-center gap-2">
                         <User className="w-5 h-5 text-gray-600" />
                         <span className="text-gray-700 font-medium">
-                          {user.user_metadata?.username || user.email?.split('@')[0] || 'User'}
+                          {user.user_metadata?.username ||
+                            user.email?.split("@")[0] ||
+                            "User"}
                         </span>
                       </div>
                     </div>
-                    <Link href="/mortgage/approval" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/mortgage/approval"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition rounded-md">
                         My Applications
                       </button>
                     </Link>
-                    <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/admin"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition rounded-md">
                         Dashboard
                       </button>
                     </Link>
                     <button
                       onClick={async () => {
-                        await signOut()
-                        setIsMobileMenuOpen(false)
+                        await signOut();
+                        setIsMobileMenuOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition rounded-md flex items-center gap-2"
                     >
@@ -286,12 +324,18 @@ export default function Header() {
                 ) : (
                   // Unauthenticated Buttons
                   <>
-                    <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/auth"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <button className="w-full border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 transition font-medium">
                         Sign In
                       </button>
                     </Link>
-                    <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/auth"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <button className="w-full bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90 transition font-medium">
                         Get Started
                       </button>

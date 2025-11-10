@@ -27,7 +27,7 @@ import {
   Phone,
   Medal,
   LucideMedal,
-  LucideIcon,
+  LucideBanknote,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -132,9 +132,9 @@ const services = [
     iconColor: "secondary",
   },
   {
-    icon: TrendingUp,
-    gradientFrom: "success",
-    gradientTo: "success/70",
+    icon: LucideBanknote,
+    gradientFrom: "secondary",
+    gradientTo: "secondary/70",
     hoverBorder: "#085668",
     title: "Investment Properties",
     description:
@@ -144,12 +144,12 @@ const services = [
       "Portfolio expansion strategies",
       "Commercial property options",
     ],
-    iconColor: "success",
+    iconColor: "secondary",
   },
   {
     icon: Shield,
-    gradientFrom: "highlight",
-    gradientTo: "highlight/70",
+    gradientFrom: "secondary",
+    gradientTo: "secondary/70",
     hoverBorder: "#085668",
     title: "Mortgage Protection",
     description:
@@ -159,7 +159,7 @@ const services = [
       "Disability income protection",
       "Home and property insurance",
     ],
-    iconColor: "highlight",
+    iconColor: "secondary",
   },
 ];
 
@@ -267,7 +267,7 @@ export default function Home() {
 
       {/* How approvU Works */}
       <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-[#18768B] text-3xl md:text-4xl font-bold mb-4">
               How approvU Works
@@ -308,7 +308,7 @@ export default function Home() {
               return (
                 <Card
                   key={step.number}
-                  className={`relative p-8 hover:shadow-lg ${hoverBorderClass} transition-shadow`}
+                  className={`relative px-8 py-2 hover:shadow-lg ${hoverBorderClass} transition-shadow`}
                 >
                   <div className="flex justify-center mb-6 mt-4">
                     <div
@@ -319,12 +319,12 @@ export default function Home() {
                   </div>
                   <div className="width-full flex justify-center mb-4">
                     <div
-                      className={`w-9 h-9 rounded-full ${numberBgClass} flex items-center justify-center text-white font-bold text-xl`}
+                      className={`w-9 h-9 rounded-full ${numberBgClass} flex items-center justify-center text-white font-bold text-l`}
                     >
                       {step.number}
                     </div>
                   </div>
-                  <h3 className="text-[#18768B] text-xl font-semibold mb-3 text-center">
+                  <h3 className="text-[#18768B] text-l font-semibold mb-3 text-center">
                     {step.title}
                   </h3>
                   <p className="text-muted-foreground text-center">
@@ -339,7 +339,7 @@ export default function Home() {
 
       {/* Why Choose approvU */}
       <section className="py-20 px-4 bg-gradient-to-br from-accent/5 to-secondary/10">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-[#18768B] text-3xl md:text-4xl font-bold mb-4">
               Why Choose approvU
@@ -396,13 +396,13 @@ export default function Home() {
 
       {/* Our Services */}
       <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-[#18768B] text-3xl md:text-4xl font-bold mb-4">
               Our Services
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive mortgage solutions for every stage of your journey
+              Comprehensive mortgage solutions for every stage of homeownership
             </p>
           </div>
 
@@ -474,7 +474,7 @@ export default function Home() {
 
       {/* Real Reviews */}
       <section className="py-20 px-4 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-[#18768B] text-3xl md:text-4xl font-bold mb-4">
               Real Reviews from Real Clients
@@ -532,7 +532,7 @@ export default function Home() {
 
       {/* Lenders We Work With */}
       <section className="py-20 px-4 bg-gradient-to-br from-success/10 via-secondary/10 to-accent/10">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Trusted by Canada's Leading Lenders
@@ -546,7 +546,7 @@ export default function Home() {
             {lenders.map((lender) => (
               <Card
                 key={lender}
-                className="py-6 px-4 bg-white hover:shadow-lg hover:border-[#348699] text-[#348699] transition-all hover:scale-105"
+                className="py-6 px-4 bg-white hover:shadow-lg hover:border-[#FBA05E] text-[#348699] transition-all hover:scale-105"
               >
                 <div className="w-full text-center font-semibold text-sm">
                   {lender}
@@ -617,7 +617,7 @@ export default function Home() {
             <Button
               size="lg"
               asChild
-              className="text-lg px-8 bg-white text-primary hover:bg-white/90 shadow-xl"
+              className="text-lg px-8 bg-white text-[#FBA05E] hover:bg-white/90 shadow-xl"
             >
               <Link href="/mortgage/approval/">
                 Start Your Application
@@ -633,12 +633,15 @@ export default function Home() {
               <Link href="/mortgage/rates">Compare Offers</Link>
             </Button>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-3 text-center">
             {finalCTAFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <div key={index} className="flex flex-col items-center gap-2">
-                  <IconComponent className="w-8 h-8 text-white/90" />
+                <div
+                  key={index}
+                  className="flex flex-row items-center align-middle justify-center gap-2"
+                >
+                  <IconComponent className="w-5 h-5 text-white/90" />
                   <span className="text-sm text-white/90">{feature.text}</span>
                 </div>
               );

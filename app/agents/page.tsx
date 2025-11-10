@@ -1,15 +1,15 @@
-import { Metadata } from 'next';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Languages, Award, Mail, Phone } from 'lucide-react';
-import Link from 'next/link';
+import { Metadata } from "next";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Star, MapPin, Languages, Award, Mail, Phone } from "lucide-react";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: 'Our Mortgage Agents | Expert Guidance Across Canada | approvU',
+  title: "Our Mortgage Agents | Expert Guidance Across Canada | approvU",
   description:
-    'Meet our team of experienced mortgage agents. Licensed professionals ready to help you find the best mortgage rates and solutions across Canada.',
+    "Meet our team of experienced mortgage agents. Licensed professionals ready to help you find the best mortgage rates and solutions across Canada.",
 };
 
 interface Agent {
@@ -35,11 +35,11 @@ export default async function AgentsPage() {
   const supabase = await createServerSupabaseClient();
 
   const { data: agents, error } = await supabase
-    .from('agents')
-    .select('*')
-    .eq('is_active', true)
-    .order('display_order', { ascending: true, nullsFirst: false })
-    .order('name', { ascending: true });
+    .from("agents")
+    .select("*")
+    .eq("is_active", true)
+    .order("display_order", { ascending: true, nullsFirst: false })
+    .order("name", { ascending: true });
 
   const agentsList: Agent[] = agents || [];
 
@@ -51,9 +51,7 @@ export default async function AgentsPage() {
           <Star
             key={i}
             className={`h-4 w-4 ${
-              i < rating
-                ? 'fill-yellow-400 text-yellow-400'
-                : 'text-gray-300'
+              i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
             }`}
           />
         ))}
@@ -72,8 +70,8 @@ export default async function AgentsPage() {
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
               Licensed professionals with years of experience helping Canadians
-              secure the best mortgage rates and navigate the home buying process
-              with confidence.
+              secure the best mortgage rates and navigate the home buying
+              process with confidence.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/mortgage/approval/">
@@ -95,7 +93,7 @@ export default async function AgentsPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-12 px-4 bg-muted/30 border-y">
+        {/* <section className="py-12 px-4 bg-muted/30 border-y">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="text-center">
@@ -124,7 +122,7 @@ export default async function AgentsPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Agents Grid */}
         <section className="py-20 px-4">
@@ -134,8 +132,8 @@ export default async function AgentsPage() {
                 Our Team
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Every agent is licensed, experienced, and dedicated to finding you
-                the best mortgage solution
+                Every agent is licensed, experienced, and dedicated to finding
+                you the best mortgage solution
               </p>
             </div>
 
@@ -229,7 +227,7 @@ export default async function AgentsPage() {
                           <div className="flex items-start gap-2 text-sm">
                             <Languages className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
                             <span className="text-muted-foreground">
-                              {agent.languages.join(', ')}
+                              {agent.languages.join(", ")}
                             </span>
                           </div>
                         )}
@@ -238,7 +236,11 @@ export default async function AgentsPage() {
                         {agent.specialties && agent.specialties.length > 0 && (
                           <div className="flex flex-wrap gap-2 pt-2">
                             {agent.specialties.slice(0, 3).map((specialty) => (
-                              <Badge key={specialty} variant="secondary" className="text-xs">
+                              <Badge
+                                key={specialty}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {specialty}
                               </Badge>
                             ))}
@@ -304,7 +306,9 @@ export default async function AgentsPage() {
                   <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
                     <Award className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Licensed & Certified</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    Licensed & Certified
+                  </h3>
                   <p className="text-muted-foreground text-sm">
                     All our agents are fully licensed and meet the highest
                     professional standards in the mortgage industry.
@@ -317,7 +321,9 @@ export default async function AgentsPage() {
                   <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
                     <Star className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Proven Track Record</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    Proven Track Record
+                  </h3>
                   <p className="text-muted-foreground text-sm">
                     Years of experience helping thousands of Canadians achieve
                     their homeownership dreams.
@@ -330,7 +336,9 @@ export default async function AgentsPage() {
                   <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
                     <Languages className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Multilingual Support</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    Multilingual Support
+                  </h3>
                   <p className="text-muted-foreground text-sm">
                     Communicate in your preferred language with our diverse team
                     of multilingual professionals.
@@ -348,11 +356,16 @@ export default async function AgentsPage() {
               Ready to Work with an Expert?
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Get personalized mortgage advice from one of our experienced agents
+              Get personalized mortgage advice from one of our experienced
+              agents
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/mortgage/approval/">
-                <Button size="lg" variant="secondary" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                >
                   Get Pre-Approved
                 </Button>
               </Link>
