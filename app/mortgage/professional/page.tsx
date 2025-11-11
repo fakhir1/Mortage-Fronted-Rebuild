@@ -112,6 +112,8 @@ export default function ProfessionalMortgages() {
           text: "View Eligible Professions",
           href: "#professions",
         }}
+        backgroundImage="/images/hero/purchase-mortgage-hero.jpg"
+        variant="default"
       />
 
       <FeaturesGrid

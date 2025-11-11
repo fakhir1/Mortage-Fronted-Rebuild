@@ -84,6 +84,8 @@ export default function NewcomerMortgage() {
           text: "Learn About Requirements",
           href: "#requirements",
         }}
+        backgroundImage="/images/hero/newcomer-mortgage-hero.jpg"
+        variant="default"
       />
 
       <FeaturesGrid

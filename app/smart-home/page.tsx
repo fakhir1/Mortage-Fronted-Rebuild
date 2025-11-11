@@ -88,6 +88,8 @@ export default function SmartHomeOverview() {
       childPages={childPages}
       childPagesTitle="Explore Smart Home Categories"
       childPagesLayout="grid"
+      backgroundImage="/images/hero/smart-home-hero.jpg"
+      variant="default"
       introContent={
         <div>
           <h2 className="text-3xl font-bold mb-4">Welcome to the Future of Home Living</h2>

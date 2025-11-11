@@ -123,6 +123,8 @@ export default function Partner() {
       <Hero
         title="Partner with approvU"
         subtitle="Join Canada's fastest-growing mortgage platform and earn revenue while better serving your clients."
+        backgroundImage='/images/hero/hero-family-home.jpg  '
+        variant='default'
       />
 
       <FeaturesGrid
@@ -294,13 +296,12 @@ export default function Partner() {
 
       <FAQBlock 
         title="Partnership FAQs"
-        subtitle="Common questions about partnering with approvU"
         faqs={faqs} 
       />
 
       <CTASection
         headline="Ready to Grow Your Business?"
-        subtext="Join hundreds of professionals who are earning additional revenue through our partnership program"
+        description="Join approvU's partner network today and start offering mortgage solutions to your clients."
       />
     </>
   );

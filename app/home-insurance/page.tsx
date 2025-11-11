@@ -46,6 +46,8 @@ export default function HomeInsuranceOverview() {
           text: "Learn About Coverage",
           href: "/home-insurance/guides/"
         }}
+        backgroundImage="/images/hero/home-insurance-hero.jpg"
+        variant="default"
       />
 
       <section className="py-20 px-4">

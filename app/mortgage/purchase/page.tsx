@@ -84,6 +84,8 @@ export default function MortgagePurchase() {
           text: "View Current Rates",
           href: "/mortgage/rates/",
         }}
+        backgroundImage="/images/hero/purchase-mortgage-hero.jpg"
+        variant="default"
       />
 
       <FeaturesGrid

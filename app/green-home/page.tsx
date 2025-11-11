@@ -46,6 +46,8 @@ export default function GreenHomeTechnology() {
           text: "View Rebate Programs",
           href: "#rebates"
         }}
+        backgroundImage="/images/hero/green-home-hero.jpg"
+        variant="default"
       />
 
       <section className="py-20 px-4">
